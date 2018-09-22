@@ -350,6 +350,14 @@ SurfaceFlinger::SurfaceFlinger() : SurfaceFlinger(SkipInitialization) {
         // for production purposes later on.
         setenv("TREBLE_TESTING_OVERRIDE", "true", true);
     }
+
+    property_get("ro.hardware", value, "");
+    if (!strcmp(value, "hi3660") ||
+            !strcmp(value, "hi6250") ||
+            !strcmp(value, "hi3670") ||
+            !strcmp(value, "kirin970")) {
+        mDamageUsesScreenReference = true;
+    }
 }
 
 void SurfaceFlinger::onFirstRef()
@@ -2008,9 +2016,9 @@ void SurfaceFlinger::setUpHWComposer() {
                     }
 
                     layer->setGeometry(displayDevice, i);
-                    if (mDebugDisableHWC || mDebugRegion) {
+                    //if (mDebugDisableHWC || mDebugRegion) {
                         layer->forceClientComposition(hwcId);
-                    }
+                    //}
                 }
             }
         }
